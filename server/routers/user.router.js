@@ -5,7 +5,7 @@ import authMiddleware from '../middlewares/auth.middleware.js'
 const userRouter = new Router();
 
 userRouter.post('/register', userController.registration );
-userRouter.get('/login', userController.login);
+userRouter.post('/login', userController.login);
 userRouter.patch('/auth', authMiddleware, userController.check);
 
 export {userRouter};

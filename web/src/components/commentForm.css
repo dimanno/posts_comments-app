@@ -1,0 +1,21 @@
+.form-box {
+    display: flex;
+    justify-content: center;
+}
+
+.input-box{
+    margin-bottom: 20px;
+}
+
+.first__input {
+    display: block;
+    width: 500px;
+    height: 40px;
+    padding: 14px 18px;
+    border: 1px solid #DDDEE0;
+    border-radius: 16px;
+    box-sizing: border-box;
+    font-size: 14px;
+    /*line-height: 1.57;*/
+    letter-spacing: 0.3px;
+}

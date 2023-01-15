@@ -10,6 +10,7 @@ const commentFields = {
     message: true,
     parentId: true,
     createdAt: true,
+    updatedAt: true,
     user: {
         select: {
             id: true,
@@ -37,9 +38,55 @@ export const create = async  (req, res, next) => {
         .catch(e => next(ApiError.badRequest(e.message)));
 }
 export const getAll = async (req, res, next) => {
-    await prisma.comment.findMany({select: commentFields})
-        .then(comments => {
-            return res.status(200).json(comments)
+    await prisma.comment.findMany({
+        orderBy: {
+            createdAt: 'desc',
+        },
+        select: {
+            ...commentFields,
+            _count: {select: { likes: true } }
+        }
+    }).then( async comments => {
+        const likes = await prisma.like.findMany({
+            where: {
+                // userId: req.cookies.userId,
+                commentId: { in: comments.map(comment => comment.id) }
+            }
+        })
+        return res.status(200).send(
+            comments.map(comment => {
+                const {_count, ...commentFields} = comment
+                return {
+                    ...commentFields,
+                    likedByMe: likes.find(like => like.commentId === comment.id),
+                    likeCount: _count.likes,
+                }
+            }),
+        )
+    }).catch(e => next(ApiError.badRequest(e.message))
+)}
+
+export const getOne = async (req, res, next) => {
+    await prisma.comment.findUnique({
+        where: { id: req.params.id },
+        select: {
+            message: true,
+            userId: true,
+            children: true,
+            likes: true,
+            createdAt: true,
+            parentId: true,
+            updatedAt: true,
+            user: {
+                select: {
+                    id: true,
+                    userName: true,
+                }
+            }
+        }
+    })
+        .then(comment => {
+            return res.status(200).json(comment)
         })
         .catch(e => next(ApiError.badRequest(e.message)));
 }

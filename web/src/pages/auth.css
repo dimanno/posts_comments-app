@@ -1,0 +1,13 @@
+.s-form-box__input-box{
+    position: relative;
+}
+.s-form-box__input-box input{
+    width: 100%;
+}
+.s-form-box__input-box .eye{
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    z-index: 1;
+    transform: translateY(-45%);
+}
