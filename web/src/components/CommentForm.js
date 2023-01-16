@@ -1,19 +1,23 @@
 import './commentForm.css'
 import { useState } from "react"
-import {Field, Formik} from "formik";
-import * as Yup from "yup";
 
 export function CommentForm({
                                 loading,
                                 error,
                                 onSubmit,
                                 autoFocus = false,
-                                initialValue = "",
-                            }) {
-    const [userName, setUserName] = useState(initialValue);
-    const [email, setEmail] = useState(initialValue);
-    const [homePage, setHomePage] = useState(initialValue);
-    const [message, setMessage] = useState(initialValue)
+                                initialValues = {
+                                    userName: "",
+                                    email: "",
+                                    homePage: "",
+                                    message: "",
+                                },
+                            })
+{
+    const [userName, setUserName] = useState(initialValues.userName);
+    const [email, setEmail] = useState(initialValues.email);
+    const [homePage, setHomePage] = useState(initialValues.homePage);
+    const [message, setMessage] = useState(initialValues.message)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -25,30 +29,6 @@ export function CommentForm({
     }
 
     return <div className="form-box">
-        <Formik
-            onSubmit={handleSubmit}
-            initialValues={{
-                userName: "",
-                email: "",
-                homePage: "",
-                message: "",
-            }}
-            validationSchema={Yup.object().shape({
-                userName: Yup.string().required(),
-                email: Yup.string().email().required(),
-                homePage: Yup.string(),
-                message: Yup.string().required(),
-            })}
-        >
-            {props => {
-                const {
-                    touched,
-                    errors,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit
-                } = props;
-                return (
                     <form onSubmit={handleSubmit}>
                         <div className={'input-container'}>
                             <div className={'input_center'}>
@@ -57,8 +37,8 @@ export function CommentForm({
                                     <input
                                         type="text"
                                         value={userName}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
+                                        onChange={e => setUserName(e.target.value)}
+                                        // onBlur={handleBlur}
                                         name="username"
                                         placeholder={"username"}
                                         className="s-form-box__input first__input"
@@ -70,8 +50,8 @@ export function CommentForm({
                                     <input
                                         type="text"
                                         value={email}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
+                                        onChange={e => setEmail(e.target.value)}
+                                        // onBlur={handleBlur}
                                         name="email"
                                         placeholder={'email'}
                                         className="s-form-box__input first__input"
@@ -84,8 +64,8 @@ export function CommentForm({
                                         <input
                                             type={'text'}
                                             value={homePage}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
+                                            onChange={e => setHomePage(e.target.value)}
+                                            // onBlur={handleBlur}
                                             name="Home page"
                                             placeholder={'Home page'}
                                             className="s-form-box__input first__input"
@@ -110,19 +90,7 @@ export function CommentForm({
                                 </div>
                                 <div className="error-msg">{error}</div>
                             </div>
-                            <div className="s-form-box__add-box">
-                                <label>
-                                    <Field type="checkbox" name="not_robot"/>
-                                    {'not robot'}
-                                </label>
-                                {errors.not_robot && touched.not_robot && (
-                                    <div className="form_error">{errors.not_robot}</div>
-                                )}
-                            </div>
                         </div>
                     </form>
-                );
-            }}
-        </Formik>
-    </div>
+   </div>
 }

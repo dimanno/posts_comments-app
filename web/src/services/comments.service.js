@@ -1,7 +1,10 @@
 import {makeRequest} from "./makeRequest";
 
-export function createComment() {
-    return makeRequest('http://localhost:7000/api/comments' )
+export function createComment({ message, parentId }) {
+    return makeRequest('http://localhost:7000/api/comments', {
+            method: "POST",
+            data: { message, parentId },
+        })
 }
 export function getComments() {
     return makeRequest('http://localhost:7000/api/comments' )

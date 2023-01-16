@@ -22,7 +22,6 @@ export function CommentProvider({ children }) {
         })
         return group
     }, [parentComments])
-    console.log(commentsByParentId)
     useEffect(() => {
         if (comments == null) return
         setParentComments(comments)

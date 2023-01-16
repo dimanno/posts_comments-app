@@ -23,13 +23,13 @@ export const create = async  (req, res, next) => {
     await prisma.comment.create({
             data: {
                 message: req.body.message,
-                userId: req.user.id,
                 parentId: req.body.parentId,
+                userId: req.user.id,
             },
             select: commentFields,
         })
         .then(comment => {
-            return res.status(200).json({
+            return res.status(200).send({
                 ...comment,
                 likeCount: 0,
                 likedByMe: false,

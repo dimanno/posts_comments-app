@@ -26,6 +26,7 @@ export function Comment({
                             likeCount,
                             likedByMe,
                         }) {
+    console.log(user)
     const [areChildrenHidden, setAreChildrenHidden] = useState(false)
     const [isReplying, setIsReplying] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
